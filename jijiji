@@ -1,0 +1,1231 @@
+El contenido es generado por usuarios y no está verificado.
+
+
+4
+Más información sobre los artefactos
+import React, { useState, useEffect, useRef, useCallback } from "react";
+
+const LOGO_URI = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPkAAACYCAYAAAAm509vAABRUUlEQVR4nO29V5McSbbn9zseImUpVEHL1j36zsyVtsJII2l8Ix/5aUlb0rgPvMvl7s4Vc+/0TE93A90ACiiZMoT74YOHR0RmFYACGkAJ1IEVMjMyhEek//3oc2R0OOKlpEuf5eW7XxJHn1mg5WenMD2MmOzFOt2P0RcddwHJRNBfL2R4xdId2tMezoUmeSXIL+mtUzYxTHZjxvuxuvJy1YxTZXClkOGVkqTzAa1074kuQf4eaXoQcfAk1WxqTnsoZ5Z6K5a1G4Vccve3R5cgfw802Ys5eJpoPrsE90mp03es3cilv3YJ9h9LlyB/R6QK452Eg+1Ey+xSJH9TSnuOteuFDDbK0x7KuaVLkL8DGu8k7D1O1BaX4H5blHSUjVu59Ncvwf66dAnyt0jZ1LDzXedSLH+H1B1aNu/mknTdaQ/l3NAlyN8Clbmw/0Oq4734tIfywdDq1ULWbuREl4/8lXQJ8h9BqnDwJOVgO1G9ZCzvnaII1m/msnK1OO2hnGm6BPkb0uwwYudR59KodgYo7Tk272bSGVyutMfRJchfk9TB3g8ph8+Sy6iNs0QCGzcLWbuen/ZIzhxdgvw1KJ8ann3b0WJ+sQxrqlXErXBsaK3gI3XlHAgt3YFj8/5cLiPnGroE+Qnp4EnK3pNEXxiXfh7omDyEGuBU702zn1IBvH7jX0Va5zqDwDcGNu5ksrJ56W6DS5C/kmwhPPtzV+eTo9w7cL0zx+GWQIk2YzVtgFYAl9ZxkWluRhWsW1rXpDpcmksh1eLQvnZ1/Gk+m/6qZev+XMwHboG/BPlLaD4xbP+pq84eP1NPexK/kFogRsHgcWdE6MR+3AZvX3DWf3YKzvnt9SmqbUh1fOS5pAAYf1xhoVRFoupy4r+T1pp4moth3FGufzz/oP3qlyB/AY13Y3a+6+iL0j/VQZl5cCRdP/nfO+mSruxAArBVSCJIE7/dWihzMEY9cAOwrfjX0oOx/qvODxX3lwbkRrS+pqpgYogrblk4KC2oUTQCIn9cvSC2OP37IhPB1Qdz6a1+mHHwlyA/hvZ+SDh4mr5Q+7Yl7D0BzYVYwBlYu6nE6fsZX1uC0ABqCwahE0EaQ5FDWSrqBGs9xy4LGvGdxddaD9fmnPUDkMVrtzcrHkSRqF8EIi/yJzGUDmYlSKyYDkjSWpBOAexX7uSy+gH61D9wbWWR1MH2Nx2dHbzksShMD4CJcDjxc3V94LetXn0PY2yL4hZiKyQGeilkuZLNhHkJziq24tL1/m0uvXyu9m66tM15MTwY4YIhTvCgtRZy5xEr4rl9ZIAIuil0jJDPYD7xYI86IFEzhvclxu8+SrXIRDbvfFhutkuQV2RL4ekfu6+OOxeYj4XRCIpKxN13sBoJvVXPzd/2pG2LugJI4cXxbgJJApMp7I3BOsGVVFx40YDW5tTL5663tYxyNaevFgW1i8fU78N/y+et/psJxBFEKfS7go5hfgCmr8SDBuzvi0bPEi3mhmsfz+VUVKxToEuQ42PPn/6xp8UJo9fEKKgglcypTrGlkE146yJ7LTo7iBUovPFMDMwnMCkr45mrjGQscuvjzlV/hiOgDh/au6pbWhyWzt9eKJavgVbjK2A286GovQ7IVJiNIV1RTNeD3bwnwM9HEU+/6un1T2YfhOX9g9fJy1x48lVPy/xkAFeF2QiefS3M54pTQQS6HS+ur93wuumP5ea1RdpB5MBYr/+j+Os6qcG3AMIA0GM4NkvbdQngy2L8gm6+ZIxDoTK8LxrsjpMagv5dPRNTWd97XQ/6EkiGlSifLFrm3yWlfcf1T2Zy0ZNcLvjtvZxeF+DgwdvpQzqAIhMKq0QilCUUMygy6A5+xKACIByIhRghct4UPssFVyqqcoSztjnyMuCPcN726zH7HAvu8H5p+4JY3zbavWQM1vpbLAslioVOqhT7AgnEfSXuV1xd3q2+nk8NT//kOfpFBvoFvrWX05sAHPzkNREMN5TpriB445a1MJtAdwydLt5X/Bqnrjk34HJIrJAIWKsUVrAFWIe3gC3p0MfYzxa48RGu3nqz7DJb4O5hGywCv7Wd5WPb51seS+s9Cmq95b8oxOvtkWIzIZ9CZ01Jeid7dj+GPgSgX9DbejlZC0//+PoAhwa4/TVvJU4d5AqlVaJcyCZCuabEnTc4rwPmwjCG3HnDXmkFtd6n/aJ01mPFbBZ19PartNaJALxljnzkvC+TFGjGdoSTL11fZVG9cM6foxAwRogKSApwuTDrKitbjfj+rrh6PjVs/6mnNz6byftSFd4nXcBbejmpg+3XMLK9iKIEVrbUB8GoogjOwXwE+fw1xhPAUECcCT0D86n3cxelH69bAt4RALVE5wDSZYAvX7PW5d0iMGtrevV9MOqFqLga8O1ztAx/yy46V42//gv7uea9cz72oCwhz2A+g8kY3FjYeyTk2bt3s2VTw7NvLmZWywcH8u1vOm+tJPLaNcgKAMFZyEvI5pBP5FgxeZlq4ObQsUIkynSulNZP+gAAv9OSCMxRUOKHsqgfU2OyvmaQCmpQts/T2qf+vgXM9iKy8FkXv2sDW9vvK84dPlvX7G9tBfQcsgwOx2BncPBImE9e/Tx/LE0PYnYfvaeIpvdIH5S4vvso5aWBLq9D6t1la1dhshsSOXyEyHgPhlchTl5waDXxRYEcOpUUkM29HO1a3PW46y5YsVsRZG2ALi8Ky0azehwsidOtcx9xi8nidcJYaZ3jiEGOSpQPi09L5XCtfcKxQG14NA5mTklSYfJE0KtKd/hure+HzxKNO3qhIuM+GJCPd5IjhR7axq7FNyenjZvK6JlgAKdKloMiFBkkKUciuurPFkwmRM6HfxYFHjQKLPul22NmEUC0ARQ+swRQmu+l9X5B1G+De+n69Vu3KBEsqwXHHhO+c63t+uL3YZESwAlYK5SVSmBVMLGS9t6t+L77fapx6i5MzfcPAuTzieH5w6Ox6LaAbOKTM5Ked40FoL9yElXA6q14I9z+M6FURySCRt7/e9x5RCrreSmI9Xq3s9RJI0c4MEfBc5zlfFlXbn9/nLX7OKt6rWMvAbYuJtE6z4Lu3jpnHTSnLKgOxxnuwnth8RzQUlOq8cws5AV013xC0DvV0RWef9vVG19MJb0AavqFB3mZC9tfdxeSolW9zjvaFqaH4IrK9z1UBhuQdGjY3itIBNZuOJ5vl+zszBiupGzd7RB3ZIGL15M3g7QUxHndM6R6trlam9qcu32eBU68DG4A55n6Asi0ZvTHcvFloB9nB3gZ0Be+q8ZwhFsv39PSmJbHBZ6Lu4qbzyfCYEN9LP07BLqzsP2nrt76YibvKxLvXdGFB/nz7zpHmgoKnoNP9mE68duKQolnPpFisK70Vpu46hdNprB9ZVP45FeGm9MOSWJYvdJwclgCeC5oCXmVGRYSSBYu0f7QAvARqzpHOXLYFjihax1/5DzVcQvWe7cENsXniNP6fHR4Rxao+p6P296SDBbu4ciK0txLSJBx9ti18Hhq3cebxMiXmWH3UUe37p/vap0XGuQHT1Pmo2N+XfGumjzz1lznoDRCbJWiEPKpMDmE9etK0uWVXN0YWN2MWN188UzSHJLCJ5AUxaJlW2gBqV25hRa3pAHTcWJ22De8to13ywY175vWBRDXHDxct7KeE65dPYNGp29JKsIiQNv3vQTc9iIRbrUWzZfvuWUbyC2U6otAmFCi6iW/iapXw8p9QWIlXq1y/l8TruPdmN6q5Ty3abqwIM+mhv3HL66omiRgc5iOHGnfoA5sJpArRQ6DUtgeC+u3lOEVf8yyEa1Nx24PXKuEKBNw3uUWCjQINOWUdPGYI+J36+u29fw4Dr0c0964rnQBOCJSh5SH8wqNfcC0zh8s2uG87bJQ0ioZdYTNyuJ9vMi+UJ+7tVDZ4KZzSjaD/lolYYm8UlQX/HM3cyAWXE+RN8wQ3HnU0bRvz21xyAsJclVeWtUFYLABg2sF28+U6SSiN1CSboSIUBRw4Hwu9M53wnjXW9GTbjXZTzpRBNRCNPfW99m8xWFZBNARUbwtFrcAHUD2MjFcVWtO7BxYrQbjwFpHXjqms4JZlpPnBaPZlFmW45xSlhbnLCH0S4E0jul2OvQ6XTpJSpomdNOUODJEsUGtoPWqVbkGjb/mspQRzrn8oZZMaHzwALZwHIxy0m7MjY+hN4xOBFRVKKcwPwQT+3yCqPPyhfpF5Ep4/m1Hb34+P5di+4UE+d7jhFflhYvArU9iVjYtf/yHGbtPgYlhba1LHEMkhlnmxXdV2J7B2nXob7zY/92mAEYm3sg2z5YAzlGjXFsErz+Hc7XOuaw3t0Vzpy0xXKG0jiwrGU9zxpOMg/GUg8mUWZYRm4gkSUnjiCiOSFMvBzt1ICEu3yfEzMuSw+k+RVHiXElsIoa9ASsrA3rdDr20QxInRJF/7qL1f41e31JFlrSShXsJxkhrHeNJSdyBj35ecvV250RltuqFb+rVozyHaCzEA33jMl3ZJGL0PGFl6/z5zy9cqmk+M/zwL73XkqusVX74ZsZ3fyyYjxI63YR+PyGKvCwtkdLvQLcvDLeU1etV3bOXkLPABKQQ8sJz9GOt6Es+9JprL+nD9bGuEafDdleJtEE0x8E8LzgYzTgYZxyO5uyPDoiimOGwR9JTuj3D+nqXwUpKvxfT7XuQR7HBGKlEe8FaS5Er2bxkOimZTHLGhwWTcclsUjCdWmazGcP+Civ9AYN+j0GvR5qmCyK+iDQ6PYsgbxao6j4cFKUyOSiIuspHPxfufJRgzKvF9HA+O4fRn70hVYDuKgzuKlH31ce/iIyB2z+dSnTO+mpcKJCrwuN/7b12V9Ewycajku//lPHkoYJL6XQjup2IKBJElCQR1q/C1fvqG+29YMKpAzeDJIcs92motTW5NbtrnbY1jgWu3QJ2e7uzLICiLszoYDrL2dkb8Wx/yuFoihhY2xiwthGxda3D2lqH/mpCrxcTJ+KB0xrLi6jxZSvWKtnMMhrljA5ydp7N2N8t2d+ZUhbQ7fQZDnusra7QS7sLzRlkaXVctuQ7pxSlYzJWTGz55BfKnY/SEwM8POPZU5g9FiZTf91eH4a3lc5W63d4A+qvWq59cr7E9gsF8tHzhJ1jgl5OSqpKWSiHu5ZHfy548m1Jvzek2/MZUp3YsHkTrn2sRC8R2e0M0kLIZt41187/Xo5+q9+33iwY1pbjy11lkKoAEcT38TTn+6fP2dmbUBS+n/fdB+vcvNNj9UrKYBCTdqKFCf66uqmqeo4cxl4puKVVpqOCw4OMpz/MePjtiIPdDDGGtZUVtta36HU7tSVeWhdeALmDoiw5OCiJOgW//NsOW9cTX2TihBxc8Hn90++E2SHM5v7JdrtCbxVWqt+urS69Ll3/5HxVfr0wIHcWHv1z/4hP/I3O5ZQic+w8tXz1u4zZyIN07UrMl79N2bhmXmhNtwVEM6GcK3mVyrrsIgqpngu+4nCKFleDRvwOwPcJHeq5OTCfW77f3uf7pzsUOfQGEV/89Aq37/cYrCQkqR/rSSzSP4aC9b4slMkk58mjKb//xx0OdxUTCZvr62ytXyGOo3qRCXXotBJT8sIyGjuiTsFf/G3M1vW0fl4vvXZrsbQzyJ4Js30YHzT2iiiCtXXoX4X4ihJVAU9vAvak67j9k9m54eYXBuS7j95yE8LKiFVkytNHc4rMcfVWl5X1+NgEiZrLHgqa+/LHaltgblPL4NYySh/xfS9z8KB/W6vgYOdgxlffPuFwlNPrRnz58w2++OU6aadZhMyrjAdvmVyVdaIKReH48x9G/O4/bzM+tKSp4c6NO6wMht5A2Ap7taXlYFQQJ47f/LuEzasJL6sMsywZOQvFAchEKGawt+ur9ARVKYqg24eta2ANyIrSWfWWd6BOojkp4Dfv5nJejHAXAuTF3PD971/P2HYSei13i3ouYqZCNldKK0c4eDhnTdIY2KpTNCBvWeI9N/Lc21mwpfLd432+/n4bMNy5P+Av/nqL9SsJIt6d9b7BvUzOVTq4wHRS8l/+/il/+v0BKjFba1tsrK6RdmKffZeVHIwyorTkF3+ZcPt+75WAcw4v4eRQTAWdQmRhdKBMJ94OEurNV84CogSSVBkMhH5PcYmQrEI8VEyoLXfCx2Zi5c5Pp+ci5PVCgPz5tx0d7747b6BzIXBFF/TJQKo+/p2xYOeQ51WhxQBos5S4EY4L/ymL4jqtmHbnJQpnPQcfj3P+9PAZe4dTrl1b5eMve9z7ZIW04xXes9a2yTnfbcU5ePL9hH/53SGPHu7TiXqsb1zBWkuWOVbXunz564Sbd15uZAsL78ETZf7MIA5c4chyyDPTeB5aAUH1sYBUv6GJlG4X0o5DIsGJsHbfMbhiTry4r9/MZf3G2efm595PXmbCuwQ4tFsgvWjmgWYe6IUFd1yhxeWPLQNYWz9fOMw1UV9lCc/3Znz76DlZUfLpl+t89rM1NrfSI8asY4e4PHFf18L8hhbpIFEYA7fvDRmupQz/ER5/l/H8YBsouXlzi89+EnHzTurdliegorDsj7ybbbSfYUxCr5OQxpEP5KnG2/Zc+CIcglJSqDLdzijJWNvoMlxJ6FvhdeqoHG6nurpVnPmyzueekz/7pqOTvdN9yjYDuy/YQslz0CoQvZ6ux7jNlrn6QqCMazi4tVDkypPnYx4/nWBiy2e/GPLgswG9XgwcL10sUNt19yOAftxCEW7hZNZvf8Eit+zuZBwc5IhxXL06YG2t81p1151TphPLZL/kcCfn4BkcPnckdEjjhDRpWeW1qXQznk2ZFlOSnrB2PWW4btnYTFjdSOkNXn8erV7P5cqts83NzzXIy1x49E/919fF21z0JUe/cuJW58n2BJn5kkVhMhEusXyOFth1CeRtfdwqOOut1d8/GfP02ZTBquGLX/W482CAiV4umteGKbwB0FQqhwRjl/F/vCTZowZ11RwB54OAFH+cRjQdTF9jwQhgb9ObqBnBaGmtMhtb9rYLnv7RMd1N6PUS0tjU+1mFLC/Yne6zccfx4LMhG1sdOn3jawCcZLE8hsTAnZ9NznSl1zM8tFfT4fM3HH7rtwyT/sguJ/m9Bco5uKm3podaZWHyLYjl1YYjIaywAO4QteasYkt4+nzG892cjc0OX/6my9aN9JXNG2qLfQlSQDfyJY/rYRt/rSyHMqq6jx5zPsHfm+RCv7NYyEGM7+qaoZg+yGv8FG8CpuPP419NJAxWY/orMVeuW777B5huCw6FSnUqSkuWF3z2iyF3vojo9ZOFrDR5w+gYdTDZSzjL5aLOLSdXB4/+caD2NWMSnIV85v3ZUGVetQFYvRfjC0m8qrfZ7Ikv4TSd+TDQer3Qxh8usJDOCSz4zZZdZMEH/nR7xsMfRmxspfz8r/usb8bICSK/VIECetZP3XxebYu8a0sqdSKp7m2GQm9R8lAHOhUGArOZUhbeal8viCpgoN/zz7DsKabHG+vub4OC5JHPlX/5PxU78yubwwcNRWtzfvXf+7jWt9kH7az7zc8tJx/vJrwuwMsCtr8Rn5lkmrkoUs/Zuhd3xQTY+sgXDzzO4lpMQHMYZx7gwFHODU2CRsvvvawutOPQnVMODkp+eDJjdX3AT34bs7EVw6sCWsL1MuiUvuJKPm+kCy3aIowvpxQbSCIhj30qZn2fGfQUxhNf+92VLHoMqlsYZRAlSg8hs0rUf/NIsh9LUrkk065w6wv44R+9IdT/uI57P0kxSxl/b4OKuWF2GHFWo+DOLchHz+MT/1RaiZeHz33q4TxvFSAMNZLE79MYy4S1FTh8JnSHeoQ5qYNy4kEnIdMqHAoN4Fr7Q2uCBeBBHdEWShxNZ46H34/pD1I+/aVh60YShvRyEqCETu77pM3zRelhWVUAP/+jLpiZoNUjVQtRIcymVYGLUH6pvUi1rNdl1Qml0xOcUaTb+MjfN4VApZVrkA4cOjG4EvqbMFw/uXvsdenweay9VXsmufm5BHk+Na9MJT2OsmkVJOGaiSsV0MQv9jUoowgmE8hKuMZRKbSc+UynvGo+CCwY1aA5oA3249xkbTE9mzt+eDIjilPufQm3H/hWLCfRY1VBx4KJYJJTNz1YAHVrQMEAN59BaaEz8BFgNgPmPujGWalrwLfHHK4XgB4WgcQIUaKnOrNUIUqEwSZkI1/cYrilxKkc/SHfEs0OY1yZY07Oe94bnUuQj3Zec9jVj9rpK89mvvdWYZ0PDwWMNC4vz12VKIJYIq7eOfqjOQfFWDDa6M+wCOT2dds71Fb1FicPLjNr4dnzObOp4/7PYu5/3jlZzHmYuBmk6hensHAc1/G0fq9+ISDyVWNDao+q98vbsmnysCB5tF6De0pCVNkU6EA8fMWY3zGZSBlcEfYfCknPMdySupvqOyGF0U7C2vX8HV3gzencgdw5GO++Xox6AMlwQxledTx5mDOdl4BiKnFbKhk7igyKQxFWN3ts3fOm53aBB5sDJWS5oq3GYm2O6QfLou7dNrKFfavPzsJ4ZMlmCVdvKx//JCWJzcm4TrWPq+oNOrsUcVetLKGVU6DaDvAC99nyQtE2TLbVk3AfIV6/0xGinr6Wxf1tUlCh0oGSDiHuCJ330DxxtBPr2vU3aLD3juncgXw+il/Y+O9VlHaEO58Ytm6llC5uDG/VzK1TIStDWadr6HSP+nOLGZUhqtq4pH/XR7Q534LM3mwLf3mhTMZCpw+f/0VKr/d6QdHO+nFBEyUXLPyigBOcLI4jSBXLzRSWx1aDHFgos7xsPHQQVXYBqtjy02rEpXj1Y/VeQRRB0k0IlWreFZWZMJ8YuoM3nKDviM4dyCd70ZsrPeJdYsM0Ql5RozfkTi9HeJUFFCOhnPvuHm29u7VbuFyTJhq+C6IvLV3cwWSizOeWj38FK2vxyQ1ErXPlc39R64JB0NsMMhzOKWlpSAdmoScZYRxl4x4L60ATO98APqg0yzftFs7VJKiEfd63EU4EklS4djcGCSWy3/0gpgfRJch/DKl6A8ePoZNmZx2biIKfwCHqS6m4/vKy0za4LQNDOMIh89xzgc0bhmt3PDpPmkMdItLIKwNY67zOgfSEK9cNcQf2v4ZOArNsUcKo76UODGlUiOVEDxdurP1Q6hfFArYQXOaNeHVc97tloi8kc8JY+LdF0/1Yr9wqTuFOX0znCuTzUbRg6HqfFMTcclb5nttAauT+Wsc+7vha3A3GKryxbTyCvFRu3VHSrnlloEat3+c+Gk3nShoJZewNZqbi4iaGaFWJUz+m7lAg81ZzpVmptHYDan3+0De8zcUXxPWFAYU34mujF2B3hOK5kg4Es6KY1610+5bofUsQZWYo5oake3a4+bkC+ezwdJN3Xemj5Yq8lX5KY5Bqc/UFI1U4QUu0Vjzw8lwpCli/pqxdlVdHYik+lnwOMqusCVaYzJSybPz1IkqUiq+AIn5BYAqzokL10ljb0kjN5VtW9fqeWve1EKpbfVb1paezHOKoagQ5FtJ1MKtV2awzxefePk0PYta6Z8fKfq5APj38Efr4WyBbgiukSfKgJeK2uR0tUb76sCAet/bLMohj362l23+FNT1IDhPBZF4KCIE9vrJqpR4Yz6mNgZA44eaQGJiXi6BuDGy6EGob/PZ10BBN2KtzisEDWMV3ZW2zd7WAg8J511wS+f0jK8iGYi5eC/AFmh0aXbt+dpaycwPyMhPK7JRMtUAwumVzvGK6zPk4hhsub1syZDkHeSZ0h5bVLfNKe4Eq6BTiHGZViSlXLi4cwdhlFNq2pgbUx7vR6uD61vbafQa1IQ8BWyiz0hKnShJFGAy2fdNUDR0q1cpFQmmh74AY4jWQVyTZnGfKJlEdZXkW6NyAfDY5PVE9AMFmVWJLi123OXctukoj0S6D3GlTlDHLwRhldUvpD15dDcXlvt3SfF6Fm5bNwoF4rq0WRiOHxMqwb0gqJ7ikvrljCDddCHA5Jp67rVY096kUVkmuwHAVolRwcxg99Nduh742D6V6drZaJIwgqZ56sMy7JFXIphHd4dmIZT83IM9GpyuqOwf5VIjEh4ACoIur9UJcNzSW9GrfmjtWQJ/OIE1g44avf/4it1ldrHDqi0TW/dRcA0YD7O9YZOi48llE0q0ivCL/fdQFO3DMHiuDlYhC1VewCWNbFk1aMQAOiEXJcax/BN1VIYp9uyJbwPSJEhuh0MXFIzwTxBsDfScTJe77YBneZQTaKdN8bC5B/rpUzE9vNghViup0kRNDE84JiwBvi+ttQ1aY/NZ5cTpddQxWpeb+x5J6UJezJhCnzXkjgcnEMbzn2Lh5/E/qFDbuCb112P+zkphWnzKhAXU19pAw46oAl6x0bHwKwzVTH+cKmD0HnJAVzcH1YwgqhKPulW6tkI0h2eSN2gmfFyrmpjZjnDadC5Crg/y0QF5N1DL3RjJpg7XiUAtMsGW8WghlbRu6gLLwxqjVK5Uv9wVTol4UCogUstJb0cNlI4G8dKzcUwabUW311xJfzQWQ2P85C52hsHYfRg+VOBJslaTTILM1TgVEiYww2DAM1/22MoPZc8FOQAutDX66fGzLVoD668xzsGPol74B4UWlbHp2RJRzAfJsZt44lPXHUpig+dwbnEK7X9UG4DU2gi6+JPnW71uTvigEUe82C9b6Fy37IhVoKyt6OxCmdBCvCf0r/uJqwU6EcgTi/Hitg3gA8ZqPJ+8MobgC2bNKnGcRpDVVLZTmDq5e9Zts7rm3O/R2AVvKgu5d33TLVlBz9/AbVraN5MzwurdPZWawpRCdgay0cwHyYna6cp3ijV5JDGXpddnljqQvPLA18WsDmlUiEZIB9AYv1sWPO51tAUoEki50r/guJVr67iFkfp+88JZ0IyAWXC6kW14XNiJIEhaOYwSJFndPEsB6NaEYQ3EolK3GBQucu3Wv4X0Yr1ZShm2d/oJiHPAp0WehkMT5APlpxxUo5HPPbpet5bV03uJYUh0Tjl2QhLUJpOlf8fW/j7LQoyRVNBsVKMX4a0oH0r5fdPIxmLmSFbIQ3mrVc904B6f+u3JaxZhrlVRyTCSbOp9PDjB9LJgO2JmSzXzMwAL3XxLX620LNgr/fxQLUXxxXWiBytxQ+xFPkc4HyL0R41SprpPG4sQ+Nmc87BAiRwPgqu+t9YAdbrz6tgIQogTyVuqqVOqCJOoNWArlBKiqtITSWIHLCr4ARt1VpBqH0yCyLxoXwrtgfJuNQEbNccFDEO6zfWBcueTKZTFeBCOQVIUfTyrBnFcqzkjz03MBcpufomW90pfLoqlevADkaIlzV6RLH2qwaxUnLtAb+lXiJGKriG/Ng4CK4FRJooYjuhKKOWjRAPMoJ21CcqEVl24WjOu1qy8sBtAAO6xcCwUpw3sHzjlysbgSuklMuZTXLjHEncUaexeVivwd57aekM4FyMtTBDl4v7hPjPG/l7Z/OutBEqhlXK+TUQK5gHQRkh50+lWgykumgWrlPtsTOsC4Gosx/i8K5gr13FhofPG1AYxmkQmhtm3JQpdFdW3GHrht21q+IJq3wl4NkG7ArY8jbAGP/0ExleGvVjGAKPfi/+CuL9pxUek0mVObzj7IlVPNPAtcsiy87homdS3cBk4WDHH1wSyAIqRougqISccD9FXhj3Wn1JkPqdUapOLHVEXgmQQ6XaoGgpWE0DZ6tf9a5w7fO6dHuH4g1xL9URo3YevccRUn31/1hS8AuitQjnxMQLhekcPBPqwrTI0wuN0U67hodNrMKdCZB/lLrdfviVxV/NEEjlYhPMRyAy918QWxuL0QdLvVl69ISLEz35I3z3zEWABc6YAM4kxwpe/KGa8ps0NBQpmn9sITuHM49fIC8ILr19Z3XdpOSzqo3gfJQkwl6ptGSqjtEaU/xf4B9HPv2uteqXa4YEA/Lea0TJcgfwmFORequgZuvGxRD1T7r1sHO9sYqAKYBIhf0WlZFdT6KjTzqjRysMw3bimFXCjnShoL6QqMB0pUNgKGdeCcNJWPWmJ6XQDimKG0F4F6kQr3FaSThW2+GmpScfGyADv3+eUhQrBeYErf2igWYfRESNd0sRz2BSLn3m4jhzehsyFPvIz09H76OnxTITLNtgWRt/pvWQdu+4q1dVygpNM+wfFkLWRjqiotVWTZQmisMJvA/MBgC7997TYkm0rU8z79Yu4j1Jxt7OfLJZ2Cu61tG6jrwIf7aRkbJCxmVbKLkcqQ1oe0akSRj71v3lqt3X51xRoLzgqTGdiJd+e9qF3VuafjqmS+Z7rk5CchXQRprZuaZsLTAkOIemuLqVTfBbC8anUPUW75NJRFliMLRTCymT1Ie9BZ93rxyg0hW1HMoVLMfOqJWsj2DZERiiXxe/m8QUyve7tV2wTA+WQUU/VPUweTqaV7S1i5rcQdoSyUyY5Q5tqE2YbH4NrPUdFSyCaQDC+mO8250+ekZx7kZ4Xq4gktHVSCHr70K7oW8NtiKlQ4Ny9Pzqg5de796aHW2rIP3lVcdZ5B9FzIRrBy2+vn3RWhMxSc1VqtePYn7+vOVWsJqeHUDStVlkR0DZF61f13LZ0UVIU4Fa49UFa2hLhqijh6AtmuD92tx12dvp3LjnrPRTlvPa+3CPSFBfGUFpCzwKTOPMjPwkMKwSxHyjlBU5F02chF63P7XEG0PUkYq1birsqR51AXVlQgh/3nEA0tK/eadr1iIGqlsBqRyhEgiyrEsgri8K5Bx4IDPU0hWoUbn0tdINGL7JF/BBWQs7mSzwWpalu3VYPlZ+Ps25doa9vI0nnPUiGH90lnHuRngYyhLrx4XNCLSktsb1HbMNU2ypmWK+44zlW35I19dVktW5y1rTJU+6pVolXLrZ9E9bmdAzv1XNI6mI9gukMVsNIMPpzSWV28fojWC3HtRokioT8U4uU6bbVI7hNirn1iUGuZPY6wzovkdXBOdV2vjvgFKHmL2Wj1olW562zhgZ10qZsdXkS14GV09kF+mpy8NRmsBRMdk1oKR8fYAvWRr8Qb8fQV7hV1EKV+cmaHlahcDalecFAPvh5sfeLBp0A2gfEToRh7/7VoK5y1MrC51iLjFN8JpjXacF+BA1v1Vn6e+dr1Sd+PwVrIRuAK33usu+af09VPDA8PHbIbVT74xcg3p1UhiRLSQSMF/Bj8qXoj42QHRk8FWzWbMAbiLnTXlZUbPsX1vVm8l10wp0BnH+RngMQ0EzBwimOtwQsWJhZF+PBeAQNF9uof38TQWVVm+7LohqvOJeK3dzeVtOd9ULN9GH9fVZCZKTMntapRewbaBSLC+dwiwGure9jmvFidTWHvz4J1fsmx1oM1SSA7EIY3lOF1iFNh/Z7j+2e+5VQ4cdumkBhINxydwasj/15FzsLsEPa/FUbPfEGOee7vLRJIY5jtCpPnsP6RMrzy4YjuZx/kZ0C0ihPfQA9ZisNu4/QlOnmbq5vKWFZmL7+mmCpMdE2RDrixv0hYcKACV0forXjuWRZw+MhzsCzzFvnAsWvf/RLQao7dvviSrt72i2vhjYEiUovzpXo/vpn7k6YDJb4Cw02DdCDOhbxsDG8ikEQQpcrWg9Yi+oa/tSpMD2Dna2G2D5OpYnNfR15bO0WJsOqE8itBvvBAf+fi+3F63Humsw/yU6RaN478pEa1NlpBA+DlOaJH3jTvAzcti2MkgSMDgM5AGF5T7FR88cZKZg+6fdz19dtEoJj4CLl51kouCWBtjSNIAvXisxStd2Shap2jHfHXFukBnIHJCPqH0F2FJBE6a1A8b65jrUNESBLY+MTRXz95Pv2xpN7esPctTHd9R1dbCM45FK0MilotUobdfUd/FqGx0h36FscXnc48yE/bSKLOh2pGMd4AVmnGYa5DA9wQHAJLoGqfr+KIFL6kVNJ5MTcR8dddu+kXmKd/ElzhdeJwzrjViqjMvWgagmag5e6jBfqW6A6g0ZLLrDVubb2G+1oQ99s3a0Gtkk2qMGB8PH0o8Ohtb4qTgo1PDJt3Y+9O/BEAL+aw+51w8FSZTRVbgFP1XFxdNTR/E7YaxNQq0W7EZF9ZvfqG1z4hnfb8hXMA8lMX18WLk52uz6lWqENEa3AGH/oJxhrU31ihyDzIX3VYnMDGXQHjOHhoKIuqNTFVdZYqHjyKWymhrTGG6xrTpKEuRLItATwsDM5VySUtO8My6Ov96+0CRr37DMGIT6u11teK6/SFGz+JuXLnGCv9a1AI+917ArsPYT4THzRUiehaAb3eH3Dq/CKLMp9HjPcsa1ffLQTOAsjPgenhlHWa6vKdPnVoptUWUIL4K4v7+1nV4KPeV33GV5p4QxHwyomu+IXGIcSxr3jqnI+EK+c+gQZ8SGnm1FvUK6QGsT4rS0otiaOW+F3dT7iXtmTiqsIT9aLAonhfR8Q5rWPTI6DbVTorjjj2YvjBjquTe3w4q0HUIG8hx3Syr+z8wUsw1irWOZw6nLM49eOyqlh1lM76751FVclzx3xu3z0TOQM6+ZkH+VlYCRFI+0ppBVex6wVuyOLrAvhbXDDs4Kroj2x8NMjl2MtXLq/5oZAtNVu0uS/TrM5Xj9n8GIgcnQ5EoiSxEq8o934LD/5OkJ6SRK3xaiuJpvWsa3CH+2xds+1aC3xfFCR29K47hlveaDDZVWa7vjeaVnXxIoVsz/v+3zjQSSGfKk//YChyYT5X38SxFtO9WhD+ee6utSHOYbHO4hbC794NnQUL/pkX108d5FWgS9zxFuQobnysLRtUveHItiUKYnCWQ2r8OdNX9AZT9WDOJlVll8CJBeZzGG0LnRWl04fVa96/Ptp2yAxMqmzcFnorEcZAZ8Ubp6BZLEKQSFskdwEs2vIMarOfhmAZC2nHkawJgy3L1QeGJIVirmx/bYgNFIVfBEzkJZDpyEshb1SSWf0z+OH3wmQXZpnzATfVwPwYKzHKbyGIVFrdnLUOYiXumndrXZfTz0CD8wDyU35IUk3mbt8bvNAwcaRuchj2ab+HFqdaQryzPkOsK0Ix9T7m2sV13BiqY9Q2AA+TNi/g4DlEXWHzvhJ3YLAmDNa8KG2qOksCTPa8L7vdOKEWw9sSR4tz1yK6Ln2GqsqMsn6/5OqDmLQT111Vdh/B/g9VAQtXcVYHLvKBNSqvD64gUew8hPG2kGVKWTS697IO7q+pjRegMv1ZZ0Fyeqv91xvAa9JZKMcM5wDkAHGqlPkpsnT1onBvCNNDQCqAH8eyW2Lvi8RRb6vzXUFnI6G/pu3Djru8z/oyiyJz+I4CDp74ppDDa8ra9aqAg5GqMQWMtpXxE8N8XCW9tEDsqkHVo2jZFxZE9NZ4VH3knrOOq/djun1TFXxUdr8z7P7gFyB/rIecOEWdkKRNaO/rLOIisPdUGT0yFLkHODUHbz3s2pgYoN78HpaC3JasbURsbKXvVFJMOu9eHTgJnROQO8r8dGuvRxH0V2C064MqMC3RvJpFbS4ejF7LXF3wi0NZwiwDM2tcaS8ikSqUNIWsnsDUHMoJzKdKPhMmBzDcBJN68X7vByE/9H3csllVRKIqfF6HsCto6ePOW1f1xqvlBYVGYilLUGvquPd8AjtfG/Yfq/dXVxbKsHgY8TnwSVeq9sont3upeklk7xvD6NAxm1MvPAt93MRLMMv6h+J9evNsjsYlD768SqfzbudUnF5y8hPTaT8sEc/Ju6G6aktXrZPThIXc8rrVb0vEhYb7B5E9osqnrnzfx3EWVc/xhhtKcSiM24E0lQgL4mvGiXo9UIX5AUyewnwC1vmmEOiSyF8tTG7peqHm27I0Uou+1f1HqSOuAkqKXNl7BvOpD3pR541eoAiKU4NVJVkriWJT3esJYK4+RPfZ18JhZchzVitwt0X0UKeuHQhTf0NpM4wkfPKLLtdvdt95tFvcOQMVIzgnIE86pxzlXwG2vwJpR31X08pPTdXkoC6rJK0AlKWfuJp/9Xd5JkynwKHQX9U6qOXYIQgMr8L2nzw3Vq1cI22dOQasz0hRvMFrOvYRYFrFsLYlgPr1GLAF4IeHLvjFxNCI6kkM/buOtBdXaoGvVGNLxVnXsmr7JaQbwfCKYWVTkOjFrZqXyTnYfyRMdoR8rmipKE29aK3EKVeL7dJY2qulwGLJrGP9hvKz32y+shf826C4czY4+Rmw/b2a0v4ZqIinXqQerAClLFQ6DYURakNuS5cNXVDbOdX1n/OiuhQ+8eOFOnwV1NIdwsY9Syf2P5yrRG5b+e7zHKYjpcz8Mb01GF5R0lgRVWxVkLJtVHNabSPosP5m226zIHmAwyQFdOfQLxjeL7n3M99kscyVw6dgc6VwJVYd1lmsKwEfHKMGVm46eisnB5izynjHgzybQp47rLrqeXogO1dtc65SMVwNcOsc1hVkRUaUFvz232xgjHnhs36b1Old6uQnpvQsPCzxK3NnBexTauPbkfL5ldi+EFyy+LXfVoErz32p5XQidAa+oOHLcsyvfWyYjhzuiZDnXscN5y0VOpGw91i59gD6a8LWJ8rz1GKfQ37grd/tyjVKpWpArZPXtxSALhALJEPHR38JaS/xOdppwyMOngq7DyvAWVtFl/lVTzEkScrmbcPVexDHcjIp3cF8JGx/JUwOHdO5xbZEkeAkc+3i70GID1xclNwWRKnhp3+5xtpG552L6UCVw34G5i3nhJNHiZ66O0LEx4kP1yHtNO6zBY5Xkdb/tew/i+pjzemLwvt9y6rAw6vuMorhzk9h5ZYjShRTKdml9Zwsz5XdhzDZ99cbbgj3f2m4+RNFEq194tqSMpSFTNNabw8+Z3V+8ekODMM1b0nvdP3UKTPY+0754V9gNnfMyxzrSh9ZJg4xESaBzfuGWz+B3jA6EcBRL+Vsfw2Hz5XZ3C0Y1II+vjRsmm/9N1YtpZbcfBBz50G/tpe8a0rPCMDhnHBygKTnsKPT7lovdIdK3HHM5waTNFxvGZwvMiIsGMzwYnCW+Tj2YiLEXX1p/TeAtCvc/hJ6q46DJ8LBM0c5B0GwapiOhCd/EK7cU1Y2fTpqp+vBZW0QzRfH1KRliodIlaYaur5kJUQHwpM/KsnA6w9FJsx2hfGOcDgqyfMC60qsK1GFtGNY30rZugXX7gm9oTkRwMLYnn+jjJ4Kea7e0Fatqm14L6STLsDbAzy3BaubEQ8+75N2T7jAvAVKevZMGN3gHIG8O7QyH0Wnys5FfKvh3opyeKDgpDGyVTJRsGEpjdi+cA5axiytKqvMYT6D6NBXLU16L+c2Ih7o1x9ErF9TxgfCdKQ8e6gUIyHPhN2nMJ0IvTVIu5CPhDKnrgyjrUFoqLJY56AGP7o2Ir3zWV5P/hh5A6FCkQtFZrEoRVGi3rzH6qbh6t2ElY2IlbWY/tAQnVRErzjtzndw+MiQzx15bmuR3NGskhoGS6OfB5CLQG5zkh589OWAja3Oe42e7AwvOflrU/eMPDQxsHpN2X0iFKU2VtoqsCOI6rXPPIjtNK62sCFgy1qYTqHXVeb74q2yr0jBFAGJoDsUOv2IjeuKWmX7K593XhYwO1TyiXetFTmUpW/StGArUN+vjJYtoBZ7tXKBaRin1iKzU3DiQ0S9Ac8hAt20y+37cPvLmDj2xRxPmowSFp7xLjz9gzA/dExmZZMbXkkZQmMkDP97T3hT06p0OZaCW3e63HnQ83aA90i9wRkwFld0bkDe6dszUYBfBDauGb7vW+Z7Ph86INhV2VZ1xRVY1MNbvvPahUXFzXM4HPuJGPegv8GJIsJC0cUoFtauwg//TL262BLKPJj+g1FtUY8Fh4ohiaNWOYyKT0oFdNccldtGvAf1une1fxLFdAcJwyuOJPE3K6/JPvMMfvgnyGcwnvvMsUbqaMWg1wa2ZkGqx66OaTFlbSvms18MvaryHilO9cy4z+AcgVwMdIaW+anr5ZB2YOu2kB0q1ipiTFMgkQpO4U01x+u39YSlEYXxCRvzGfR7MNvxunnaO9l4wkKwugUrm5bJbkReWoK/uLaZ1+WrKu1bpC7jVDpb8Ughig1xLDhbVGmbVGfQOg7dqav80h54guKcobdmGazJGzUxLEvl+ddCMRam49JHzImAhuCWarGpF8mWfl5tFoHczej2Ur74xYD1jbdYCvaE1B2eHS4O58S6Hqi/dnaMGVs3wSQWV1QbtM1VFkX1QAsRZNVrFceBq2LMD0eAVWbPpW59dCJSiCLh5peKRhZVi1UfvxrEbu9Hbtxbzjnvx1alM7CkXb8IRLEiia2KNeIXB3xmmlVL6QpKtZUf3OFwiBj6g4TNu47+6us1NlP1i9zBY98bbTyxFNahBH/34qMMn4MQTwC/QOlyHIZb9xNuf9xfqNbzvqi3enbmKZwzkPdWzsYKqQr9FcO1e4pgFkJA2wEkfuelPzgC/hBNZi1MxrCzK5RTmOwI7qR519W02rodce0zS9KJiERwarF4wDgtUVeiavHQtF7HTSy3Pm8s32kfhluOpFMZFqsFI1jOQ/EFpxZwGCMkHeHqA8fW7ei1VSpVGO0oz/8Mo33HPLMtpULreOEgadQADwtAMIuoo7CWlQ3Hl79eJTqFPE8R6K2W7/26L6NzBfKk64jPSGYPwM2PDJ2+Q6q1py6y0C6s4GjiQ7XZ3n4fOL9VbzAbHfjWvnYM831euwXuvc9jbv9ESfuKmAhEsVp4Lo7DqgeriCHpRlz7xLJ5208FEUhS4fpHEVcfgEnEd0hxJU5LD3b8QiFAHCV0eob7P4+5+0VCkp7MTRZI1Td1fP5nYbSnzDJbV3cJ7rL2qhnUDW2HHPotlK4k7cMv/26NwcrpaKLdFeszBs8QnRudPNBgzcrBtjlVq0YordQdGG58ann4DzG2rHReqYowSJOwEqZou4Rz+7Nr7eTUR66NDnyt8DUjFIkiqycvQBCnwq1PI3pDx5NvHc+fWKIiqfBg8OGeGb31kntfpGzdToiiRWR2+8LtLwxJT3n4h4ziABLpYKsVTBUkLbl+K+LWJzGb1xOi5OTx6FCpKSU8/1YYP/PlmMrSg9yfxhs2mjWx5SKrLO1U23OXY13Bl78YcvXGu08+eRGdNVEdziPIN0oOtpPTHkYtHt/6yLD9jWU+jrA0vvG6d9rxhx3tbd7aQdWHu+7uQhQpK5HfubNa7XICi3ucCFu3DKtbwp2RYbTnmByUqLN0+jGDtQ4rGxG9galKTh89T7dvuP2pcOWWMN5TRrslRSZEUURvNWKw3mG4EpP2zOvrvhUIt79z7D2MmMwceRn84Y03oA5+Uc+9NTwkqYCuinUlpSu5eT/h3id9VOV0KrIIDDfOlqgO5xDkad+R9hz57PQ1DdWKa36h/Ov/UyJxVNVnr3hQNZEDxw7xJsuuwGVwOCoRPff6eRQpPetFg3TFLyAnaX0ssdCNhE4P1rciVGPvJZcqd1yafV90jigWBisRw1Xh+t244pDhQK3O93oAD1z2YMfx+J99RNs8L3HW1ry5dpGJIio1B3fVd6Z6ziLegNhbgS9+tUKvH7+3qLZl6q2WmDNSDaZNp4+UN6DhZnkmRKIwsa/eFLZu+bY/qC5koIX3C5lfrQqp9feVXt6ud2BLmE7g6bYwm8L8mZCPGkPdyQbZjNWYBuBBXXgVOOvjqgPEVKA2lQvuDeqmi0A2VR79TrClMJ3lOOsqd5ytXGYWh3ffWbSupR4eWrDq5zbHkfPg8y7rV9KWwe7908rm2RPV4ZyCfLB+tkSiKBFufiwkSVMoYRm0bct7ALG2/2DROIfPUisroD/ZhtnMA32+x2Kf71eQBFAaX0xRzMn1+7AI4d3VvvxzVVnmTWa0qm+I8OifwI6Fw8mcwhberUdtXmstdq4S07XyEQSjm6PUAisFNx90uf/pSlWI4nRwFkXQXztb8zLQuRPXwWelDTZKJnvvcfhh0nFUJzYCK5vC1h148mff9yvo1tWhdUz7i8pwSxvs4Xo055hO4EkJm5uwguAspKtKlJ6MI78pqUIxhXwK+URQ6yO6koF3tUUpJ+bmqlAWyvY3cPhUOBznlNYuWcqrwNU6xFYr9acJhFFA1FG6gpUrCQ++HDBcPd2pPNg6zSKEL6dzCXKAlauFTPbejwKkDuYHfrJL7ENOo3YZZfFRcJt3ldGeUjwDS3Q017zZ3Z/3uGtV/7UBHhoZTEsfg54VyqYTKIRo6AEXRcdf68eQczB6BuPHwvwQ8kx9y6hKz0+GysodXzHnVdZsH3wj7D+BnYeG8aRglueNm6x+GrJwTG1V12Bp997ywuZIotz9NOXq9fcf1bZMq1tnk4vDOQZ5d/DuDXBh4s7GPmHCZV7M3fxUGVzzHLyZ2MJwFbbuOWYTw3RiUYnqc6hUpZNa529jQlvXXP4cxHuHB97zbSGfw+YW9AqhnPve21HaOudbAPzombLzJ8Pec0telFgLiC/I2E0NvV5ENvMNHfrrLBjFj6PZSHn+jTA+KJnnRSsGvrljQarEnSbarSH/yWpJqY7bd1LufzrARKfLRHtr5anXIXwZnVuQA6xcK2Tn2x+fCXAcF2pbv6d7sP/UF3gAJV4T+lcUEuqJ7Ys9CtfvReQTx9OvDdO5zzDRah9nWkaQlji/nLFG9b7m5i1VwarX8/d3YTZVrmwKG1cUNxPiFaW3Tp2P/sa+YoXZxLH9R2HnccE4K2pnfkiymWX+/gobk08MN36mDK5Qu8YWTleF7D77kzB67pjMMgrXdpc11w2HLhSWbO2jOPKypL9u+PlvV701/ZRp7drZMAS/iE7/Cf0IWtko2f8hxRY/7hkHg1i7kKIAswNfxH+25+j2hCj2oqodwe6fhMFVZbC1CKY4gZufwd6Tktk8xlYV1sX7f9CldFShNaG1ubaGcbW+qgHvvO3LOmGewWgsXL8GqwjPd2BwTem2gmdeF+wKHO4oh7vCJMtx1lbtoepET4xY1CnFTom4Lj/8XrjxJaxsLl7PqxrK9jfK46+VaZaT29IDvF7ZQv5bs6KF63hfeHVlUbJyRm4z/u6vr7Oy/n5KOb2MOn135hJSlulcWtdrEli7/uMQbi08+p3w+/9dmI/8tiKH51/D3h+EfAeKmUdmnHgjUz6H/AB2fi88/gepGw6Cn+DdnuGj3wJxDs6iuJpz+6Z/jRvNVaCtre2u5XKDykTf/KnzxQ2tU/JCKTJl/7nyzdfw3bcKBeTPhL0/+5LMvkdYM7aTeJhEIJ9bxrMca13VONBViS22SmxRSluQlyXbuzOmB8rT3wuHz3TBPSgG9rcdj/8gZLllXmS+B5lW9nINnFpb/4IerpXV3Q+6KDNUhS9+sc7dj1ZQ1VNvo7V240dymPdA55qTA6xsFuw/TnCv6aIMmU8//IsweqwUpsSJocwNe98IkyfKfA55Ucna2tQrL8Rbu+MY1gW2/0W4+oUSp03gy8ZmzJd/U/D1f47ICoeqqfVPqeVzqs+LungQ78PnMN7A7bQajBOPfSOCm/m+aHv7sHFFubIuTJ8IJoVkBZK+rx1vDEeW9mNrvROy1kIphlBimTpzTjEYoCgtO/szXNlBvooRVd/gIYbxSPn2d4Y8c0zLecXBm/NQ+cCPM0YGa7oIlK6gcJbNGwk/+fUawHspq/wySvvuzLrN2nTuQS4GNm4VsvPwNS0fCjuPHM+/MZhuyWd/I3T7hv3HcPgE5mOhqOqrtyIsAa8Xgw893TmAYQE7Pdh64AstBq59825CMSt5+HvDbFZ6WX2hNIMfR7sv2DLXrblv5X5r++C1qpgiIljnF49iDPNZxN6uMhwq62uG+NB3YOmugUmUqAMm8WNdricXANwfRHR6VcLIUsnmGuhYHAaD4Apld6xYOqAJZa6kffj+D8JsZDmcTynLkrYCEm6tzhMPSegh8CVkn6lS2IJuT/nyl6v0eiHy7rV+8bdOGzfPrtusTece5AArWwWHz2KK+cm0Dx8brux/LxSl48tfC/2ViGIOOw+F6SGUPvBqYSJJ6/gwV8sCRiPQH4TBujLYXNRHb30cUxQF3//BczMNSnkQEERqYAX38HLATMPltNrWFFGgeg0BoYJgnaMohdFIef48otczDFdhOPJFIjo932/dJB7kJvGNHUwERJD2YGXTMNxy7B2AldJbDWtrAdS8V53XnBWy3LE78qJ8NksQI4zHJYezGVlZgLo62m7h9wgCuYZOK/6+pGp3bNWSpPDpz1e5cbuHMa+XCPMuqLdq6a2ebV080IUAOXhuvv31yS3t8xG4uWHtesFwPQaF+Rgmu1UHkLo3L7X1PJw8RJtJxVFFfbrkZA9vYQ4TUMAY5fbHETa3PPwKysJhiKvTSlMtRloQUtC6HMuSUSq8a68EC9/WbBdQCmuZ5xEHI0hiQ5Iael3odXxrJv9Z6HQAo74u25bSWTHc/SJhdzdn/5lbUDFCumcwjQWebBVsoeyOZoyzHIAsLyhKH7Um4a5b6gm1dBAMbotkXUmhOXfudbn3yYAkPX2AA1y5fT64OFwgkPfXSnorMbOTlIdSyGe+cf3V61E96WaHii1kQb9XwZcWO8apHYBVOtA5zEY+DDVOfBBJ0vNdT9LUcPczmM9ynnwnlEVOZDoezFSsulUpVRdmurbE5EUILEJ8MYjE1aKAJVgG57lgZsLBIURiMBWo044hiQFRup2IlQPDzU9h7UrMp79I+d1/dBSZjycPFR9DYcWm93dVTNH6biZZkdMkhQbpZhEXtaEtiOv1/fn9RCCzGYNhxCdfrjBcSU4tbLVNw61CzkrjhJPQhQE5wJU7ufzwLz3VZXawTOLBmOUQpQ0LLTKp9F5q3ITeX9AY1YBqYjevKmAzcKUymTu++y8RcSJ89u+9GNztGz79VUpRTnn6MCK3U9KoR0hoERFUQ022ltwONRAcrUqlGjifawZUkWtxxBDn7fV4t7AciIDkBib+O6/3C/ETIdeEz37e4+bdHtNfKL//fzOUElFTLzZ+XOE6zTZpV7mQNnTFX0f9p2CEc62x+/F5t2PuMoyBe5/1uHmnf+pBLwAmUq7cLF694xmi8+1CW6Kk61i59nIxKkzKJBU6qRcvwwG+UR8LMeThfS1W1ydikesGF5lTegNDOZgwO4RnDxt7Un9g+OXf9tm8VQBKXox97bWqEoqrAkSsNu9DwURX+c9UXV3hRauSM22O6FqWO633r1xR6ksk2aqVUVmWFDYnt3Nym5MXGZmdMJmO+OarnJ3tEhHh818OuHFP6URDxLiF67XlieahLG9SCOPWZpxh4XLhM1qPt3QZWTll/Rr89JfrZwLg4NXCs5hO+jK6UCAHWL9eECUv/hGCtDdYV3q3pvQ2bM3apOKe6qpsslYHERs+V3+WVoaZC2WLAYQoEj77VZeDWc72V4q1jZssSQ2/+bdD7n2uRKmQl2MP4apBYCi46OuoNQD1r9AubNio3o3IG0DSiMFhoWoleNRZXTTndv76RVFSWMve3pR//q8TDvYK1MGv/s06G9eVWBLaQfnNEuPqJBIVpTFpuKoAZFhoKu9AXe21+W0aO4Njkk1IUsdf/t11ut2YV4tn7546fcfK1vni4nABQW4i2LqXvXTZF4He0PDJL/usbsStiSaVaqw1eKjATRW55Ys2aviq4kpeRHaVb00dDFYiVm8odm6YjxYnaJIYfv5XQ+7/xNLpQpZPsFXZ14bzNhVWNfiwgubaBvWCwB64eJOe2RY/FtoMaXMf4SzaMuUX5YxH3+zzh38eUxSOTsfw+a87DFbBIKjaCuxL11iIXgsUJA6ppZLG0LYMXiWzGUmS8Bd/fZVr1/t4Y93pcnIxr55XZ5UuHMjBuzdWr7/a+tlYeKsXR6uRobYA3GyrOapbFDs1KOau4U6DdS8izyZ2yZjms8a+/NUan/4qprdSkhVTCjevwRMqpKraFpjb12r85bTHHPhn/X3LoBfO0dKq2y/+janvxeL45qsZ330zQ4yweiXhwc869PoGI7LAXRfetSR2rfTvZi9dGEFbrhcRLBZbFnz0RZ8vfrrJWYhqA29NT85Cd903oAsJcoCNm8UrWx4vT552M0CFmkMrQTyvQG4rkThwdUIcuuBcc9Ka679gkhqB+5/0+NlfDrlyXSjdjNxNoa6NHiqXViGlLoC0kSJqvbaWPkIEbFs8ryBd6eRtKWCB47Zcfyregp7Nc/7p/5vyfDsnjoQbdzvc/axDp5NUbkVZ7IhK6xm26rU1lo9mpwbe1TPWksKWbN3s8svfbB4pLnla1F2x51JMD3RhQS4CVx9k8qqih+BDPZ3zPnJXgSQAqNZ3nW+dW3Nw1xKJ1XOhYg75tPHjHj5zOIR+//hCh77gouHWvS6//Tdr3P8sRSkYz/dQchpXlTaAWaqU0hjcWtVTXAPuUPxwEYdLEJfa0UVT1UJABYflYHfMf/q/d5hOSzo9w73PO2xc9ymnWtVeD8cE7zmt86s0I2gvoss2hcIWdHrwm7/aYnU1JXD306QoVq4+OJ9ieqALC3Lw1vYrd1/+A4WqqgfbjtEeFLYFmiD+1iJ5S0QP/LPapygd08OqIYKtGiWMcmx6QG/lxY9ZxGe2ra4n/Oqv1/jZb7sQZWT5jMJO/RjVN0ZwWjbx5KELSmus4X1T6D1Y4F2zaAUg6uJ9QSP6hzAdEYOqobAFO9sF//BfD1AH/X7Mp7/oMRwa3x+91ggWwRy21aBuqTltKURR36DQ5nzyxQrXbvbrFk6nTVc/yiQ6Z9b0ZZLR4ei0x/DO6fm3HR3vvjgkoCyV3/8HmB0Is6wkyJ8ifrI3Qn8jY2pLAFX1PuZeGrO6EXP3Nz5BYz7zTRpP2nBPne8AerCX8x//jyfsbXu/cpIOiCVpouDagS+1Dlwp5sEvrQ3ggDo4xgMrSAXV2SqvggvGt+q8jWvPIeJYWVnj13875LMvVgDlmz9O+P3fF8yyKaWtSmJUolNjBGyNVNvjbZ6dU0teTrl9f8Df/LvrrK93T6ek8hKt38xl/cb5FdMDnYFH+e5p824maf94/Xw+hu9/J5AbrFWMGowYjGmKAoYKMKYuY6w+7ktAxGBMRCwRqKClcvAQpvtKtxe9VkdNMYJzsLaR8j/9L3f4+V/1SHuW+XyfSbaP1ZLaXaW+TVEAiW99ZLGVLl9XVmmJ8rWQrs3CEFSBIJXUdoiWBR/AqrJ/uM8//dd9nm7PURUefDbgzmeGXrJCFIWAHtf6U4746l2QPFxtZLSas7qe8pOfr7Gx0TkTAO+tWi4CwOEDAbkYuPbR/EgQg3Pw8B+V0VNlPrcIijFaG9GkirMWqpbElQjsC6qHs3jAG+OroGa5Mn7qePTffLXV13XvGuN16Tg2/PzXm/z7//k6dz/pEqUFk3yPrJxQuqLqY9a4yYJuvuAnD3ssgbbRmBsK45TAaWuftVSx+wZU2dmZ8s+/22c284EyX/7FkCs3lSTUnpKmswkt0bxJW201MVQlLzOILB99PuT2vdUzIaLHHcfVB/PTH8hbogsV1voyilPl2keZPPljt56DZaHs7E3YeVxSlNO63G9lLwcU0Spfe+k7wSz0G5dQ91ghMilrqx0+LleQ9PXnSi1BGOHGzQHrG12+/27Et3+e8vjhmMl0QhKnxFEXIxFGTGVsW3RMhQCcOlutrSlXCrjfR2t9PGjyYV8fVi+o9UG1RVny8NsJV693+eInqyRJxM//dkD+H8Y8fxpRUDauPYL9IlyztbCo+p5smnP/7pAvf3aFOD59nmMiuPbJXM5aP7MfQx8MyMH3jd68ncvOI597niSwdd/xfH/EbLrvXV2VVO8qg5KpOLqKos4itIuW+0VATBV3js+a6iRdNj+9RpxWsehvyJ3CYZ1OxEefrnHtxoCnD3p8+6cx3z88ZJrNiUxCZBLiqFNxWx81J6F6pNZ3U4Od+v+j247bJ6x53mjmmIxn/NPv9llbT7h9Z8BgGPP5r3rkfw8HB0KuRb3gLJ2pPpmgWGdZX+/wy99ssrLSLn97erR1fy7pjy8beKbogzC8LdP+k4T9xx7oRWbZ28uwpW2J4J4CP28311sM7Kg+tVInVb3xbH2jS6/3dnu2BfxNxgXb2xO+/fqQ7745YDYDI74FUhr3iExCsMB5HXyxcUG9ncq95bS+kSY8Vms93RvlbH2c0xIjEXcfrPDf/Y83GQwSytLx3VdzvvpvOeNpTlGWWFe1Rg7Xrh6SbzE8A4F/+z/c4PMvNs5EbPrm3VzOsz/8RfRBghxg51HK6FmidQTZMSQCz7en/OGr5xgTYV2TE33r9ir37q6CHJ/f7I1y72bien895Lllb2/Od38+5Kt/fcr+bkEcdwEhiTvEUYdYIlztwvIBpS/qxrjo9goJMZUaIM3i4FyJoyRNOvziL7b4u393DWeVbO74w++mfPuvGdP5FIvDqfHSj3obglVLXs4oy5Kf/2aTv/u3d4jj12t3/C5o41Yha9fz0x3EO6IPSlxv0+adHFcKk7342AnmnBd5R4eW7T9coXRTnFYpahLRT5U7dyAy77+DpjE+B7ZjIm7cHHL9ep9f/Poq3z885F9//5xH3+4zy+beJCiQxB0S00EkqtJYxcfDAyEAZrHGeQgEChKAVuG+7Qw0mM5H/MN/UW7fXeHu/S5px/DZL/vk5Zzv/5iS5yXTcurVGJtRuhyRGBPBb/7mOr/5q+tnAuCr13NZu37xOHigD5aTB9p5mDJ6/uK0NVXlP/1fBxx836HI5xgTMbym/PJv+6yun4EWyvgFqV3UcDzK+e67A779ep9nTw+YzRzWRszzOeogjjvEUUokEca0itIJ+Nh1XVBQPKl3eYXUV3U4LVCnrK70+V//t0+4stHzobNWefzdjK//+ZDtp2MKZ0EijFHWtiJ+9qstbt1ZaZopniJdZA4e6IMHOcDeDwkHT19cCLLIHT98N+Nwd07ajbl13/feOm0OtExB+gjjclaZTQuePRvz7NmEp0/H7OyMsKWgNqIoHfM8x5a+9I1U2V4igjFN36U6qbTi7t7OrsRRRBQb0rTHX/zVJr/57U2/VlTXt1YZHxZMRhliDIOVlMEwriSf0y/jtHknl5WrF5eDB7oEeUUHT1L2Hh/P0RdKKVefz4I/92XUuMikBp61ymyas38wZzLOmU5yRqOc8SQjzyxFYSsLumlCUKmC2ESIUEwEcSzEnYiVfo/BICLpGO7e3eDK5mDh+k0F2sqiLke/Oy3aup/J8MrZL6f8NugS5C0aP094/oLSzgE0Z4EDvS61Ad98bvzoZekoS0eel5SFT8SxzrUMkl4diOMIY4QkiUiSiDg2RJG8FLRto+ZZeG5i4OqDufTXzkel1bdBlyBfoulhxLM/d+tuuheRliUTv63ZfpzlvdqrPuYsAPZ1ycTK9Y/n0hlc4B/3GLoE+TGUTQ1P/9jV1+3Kcklnl+KOcv2TmSQXLNDlJHT6cYRnkDp9x80vZueq7O4lvZg6A8utzz9MgMMlyF9ISUe5+flMeisfju52EWm4UXLz86PJSR8SXYrrJ6BXudgu6QySwMatXNauXXwX2avoEuQnpOlBxM53HbVnu9/8JeGlsK0Hc+m8oIbAh0aXIH8NsoXw/NuOnqgV0yWdCg03Sq7czS5UquiPpUuQvwFN9mJ2HqXqLrn6maE4VTbvZnJeOo2+T7oE+RuSK4WdR6lO9j7YHJ8zQytXC9m4lZ+JslFnkS5B/iNpdhix87Cj5fnpZHthKOk5tu5mH1xwy+vSJcjfAjkHB49TDrZf0oTtkt4amQjWrhWyduNiZ4+9LboE+VukMhP2Hl+K8O+SVrYK2bhZ8CH7vV+XLkH+DiibGPYepzq/tMK/Neqvl2zcyj/YqLUfQ5cgf4eUTw0H28klZ39DEoHhZiGrVwuS7iW435T+f34JfJU+V3mEAAAAAElFTkSuQmCC";
+
+const FONT_LINK_ID = "concentrat-fonts";
+function ensureFonts() {
+  if (typeof document === "undefined") return;
+  if (document.getElementById(FONT_LINK_ID)) return;
+  const link = document.createElement("link");
+  link.id = FONT_LINK_ID;
+  link.rel = "stylesheet";
+  link.href =
+    "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap";
+  document.head.appendChild(link);
+}
+
+const C = {
+  bg: "#1B1030",
+  panel: "#251942",
+  panelSoft: "#2E2050",
+  border: "#3C2C63",
+  purple: "#8B5CF6",
+  purpleSoft: "rgba(139,92,246,0.14)",
+  purpleDeep: "#5B21B6",
+  lavender: "#C4B5FD",
+  gold: "#F2B84B",
+  mint: "#5EEAD4",
+  danger: "#F0857D",
+  text: "#F4F1FB",
+  muted: "#A99CC9",
+};
+
+const STORAGE_KEY = "concentrat_data_v2";
+const SUBJECTS = ["Matemáticas", "Español", "Ciencias", "Inglés", "Otra"];
+const DURATIONS = [15, 25, 45, 60];
+const POINTS_PER_MIN = 2;
+const REMINDER_TYPES = ["Sesión de estudio", "Tarea pendiente", "Examen", "Hora de descanso"];
+const BADGES = [
+  { need: 50, name: "Primer logro", icon: "🏆" },
+  { need: 100, name: "Estudiante constante", icon: "🔥" },
+  { need: 200, name: "Maestro del enfoque", icon: "🎯" },
+  { need: 400, name: "Máquina de estudio", icon: "⚙️" },
+  { need: 800, name: "Leyenda ConcentraT", icon: "👑" },
+];
+
+function todayStr(d = new Date()) {
+  return d.toISOString().slice(0, 10);
+}
+function fmtTime(total) {
+  const m = Math.floor(total / 60).toString().padStart(2, "0");
+  const s = Math.floor(total % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
+function last7Days() {
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    days.push(todayStr(d));
+  }
+  return days;
+}
+const DAY_LABELS = { 0: "D", 1: "L", 2: "M", 3: "M", 4: "J", 5: "V", 6: "S" };
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+function defaultData() {
+  return {
+    profile: { name: "", grade: "" },
+    sessions: [],
+    reminders: [],
+    goals: [{ id: "custom-seed", text: "Completar el temario de la semana", target: 5, current: 0 }],
+    customRewards: [
+      { id: "reward-seed-1", title: "30 min de videojuegos", cost: 40 },
+      { id: "reward-seed-2", title: "Ver un episodio de mi serie", cost: 60 },
+    ],
+    redeemedLog: [],
+    points: 0,
+    streak: 0,
+    bestStreak: 0,
+    lastDate: null,
+    dailyGoalMin: 60,
+    weeklyGoalSessions: 5,
+  };
+}
+
+function Logo({ size = 40 }) {
+  return (
+    <img
+      src={LOGO_URI}
+      alt="Logo de ConcentraT"
+      width={size}
+      height={size}
+      style={{ display: "block" }}
+    />
+  );
+}
+
+function TopBack({ onBack, title }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "24px 20px 6px" }}>
+      <button
+        onClick={onBack}
+        aria-label="Volver"
+        style={{
+          width: 34,
+          height: 34,
+          borderRadius: 10,
+          border: `1px solid ${C.border}`,
+          background: C.panel,
+          color: C.text,
+          cursor: "pointer",
+          fontSize: 16,
+        }}
+      >
+        ←
+      </button>
+      <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: 17 }}>{title}</div>
+    </div>
+  );
+}
+
+function Card({ children, style }) {
+  return (
+    <div
+      style={{
+        background: C.panel,
+        border: `1px solid ${C.border}`,
+        borderRadius: 14,
+        padding: "16px 16px",
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function ProgressBar({ pct, color = C.purple }) {
+  return (
+    <div style={{ height: 8, borderRadius: 999, background: C.panelSoft, overflow: "hidden" }}>
+      <div style={{ height: "100%", width: `${Math.min(100, pct)}%`, background: color, borderRadius: 999 }} />
+    </div>
+  );
+}
+
+function PrimaryButton({ children, onClick, style, disabled }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      style={{
+        fontFamily: "'Sora', sans-serif",
+        fontWeight: 600,
+        fontSize: 14,
+        padding: "13px 20px",
+        borderRadius: 12,
+        border: "none",
+        background: disabled ? C.panelSoft : C.purple,
+        color: disabled ? C.muted : "#150C29",
+        cursor: disabled ? "default" : "pointer",
+        ...style,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function GhostButton({ children, onClick, style }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 600,
+        fontSize: 13.5,
+        padding: "12px 18px",
+        borderRadius: 12,
+        border: `1px solid ${C.border}`,
+        background: "transparent",
+        color: C.muted,
+        cursor: "pointer",
+        ...style,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function TextField({ label, value, onChange, placeholder, type = "text" }) {
+  return (
+    <div style={{ marginBottom: 12 }}>
+      {label && (
+        <label style={{ fontSize: 12, color: C.muted, fontWeight: 600, display: "block", marginBottom: 6 }}>
+          {label}
+        </label>
+      )}
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          width: "100%",
+          boxSizing: "border-box",
+          background: C.panelSoft,
+          border: `1px solid ${C.border}`,
+          borderRadius: 10,
+          padding: "11px 13px",
+          color: C.text,
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 13.5,
+          outline: "none",
+        }}
+      />
+    </div>
+  );
+}
+
+export default function App() {
+  useEffect(() => {
+    ensureFonts();
+  }, []);
+
+  const [screen, setScreen] = useState("splash");
+  const [data, setData] = useState(defaultData());
+  const [loaded, setLoaded] = useState(false);
+  const [saveError, setSaveError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await window.storage.get(STORAGE_KEY, false);
+        if (!cancelled && res && res.value) {
+          const parsed = JSON.parse(res.value);
+          setData({ ...defaultData(), ...parsed });
+        }
+      } catch (e) {
+        // sin datos previos
+      } finally {
+        if (!cancelled) setLoaded(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const persist = useCallback((next) => {
+    window.storage
+      .set(STORAGE_KEY, JSON.stringify(next), false)
+      .then((res) => setSaveError(!res))
+      .catch(() => setSaveError(true));
+  }, []);
+
+  const update = useCallback(
+    (updater) => {
+      setData((prev) => {
+        const next = typeof updater === "function" ? updater(prev) : updater;
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  const sessions = data.sessions || [];
+  const today = todayStr();
+  const minutesToday = sessions.filter((s) => s.date === today).reduce((a, s) => a + s.minutes, 0);
+  const days7 = last7Days();
+  const weekSessions = sessions.filter((s) => days7.includes(s.date)).length;
+  const minutesByDay = days7.map((d) => sessions.filter((s) => s.date === d).reduce((a, s) => a + s.minutes, 0));
+  const totalMinutesAll = sessions.reduce((a, s) => a + s.minutes, 0);
+
+  function registerSession({ subject, minutes, objective }) {
+    if (minutes <= 0) return;
+    const earned = minutes * POINTS_PER_MIN;
+    update((prev) => {
+      const t = todayStr();
+      let streak = prev.streak || 0;
+      if (prev.lastDate !== t) {
+        const y = new Date();
+        y.setDate(y.getDate() - 1);
+        streak = prev.lastDate === todayStr(y) ? streak + 1 : 1;
+      }
+      const bestStreak = Math.max(prev.bestStreak || 0, streak);
+      return {
+        ...prev,
+        points: (prev.points || 0) + earned,
+        streak,
+        bestStreak,
+        lastDate: t,
+        sessions: [...(prev.sessions || []), { date: t, minutes, subject, objective, ts: Date.now() }],
+      };
+    });
+    return earned;
+  }
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: C.bg,
+        color: C.text,
+        fontFamily: "'Inter', sans-serif",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: 460, paddingBottom: 30 }}>
+        {screen === "splash" && <Splash onStart={() => setScreen("menu")} />}
+        {screen === "menu" && (
+          <Menu
+            data={data}
+            minutesToday={minutesToday}
+            onNav={setScreen}
+          />
+        )}
+        {screen === "session" && (
+          <SessionScreen onBack={() => setScreen("menu")} onFinish={registerSession} />
+        )}
+        {screen === "reminders" && (
+          <RemindersScreen data={data} update={update} onBack={() => setScreen("menu")} />
+        )}
+        {screen === "goals" && (
+          <GoalsScreen
+            data={data}
+            update={update}
+            minutesToday={minutesToday}
+            weekSessions={weekSessions}
+            onBack={() => setScreen("menu")}
+          />
+        )}
+        {screen === "progress" && (
+          <ProgressScreen
+            data={data}
+            days7={days7}
+            minutesByDay={minutesByDay}
+            totalMinutesAll={totalMinutesAll}
+            onBack={() => setScreen("menu")}
+          />
+        )}
+        {screen === "rewards" && <RewardsScreen data={data} update={update} onBack={() => setScreen("menu")} />}
+        {screen === "profile" && (
+          <ProfileScreen
+            data={data}
+            update={update}
+            totalMinutesAll={totalMinutesAll}
+            onBack={() => setScreen("menu")}
+          />
+        )}
+
+        {saveError && loaded && (
+          <div style={{ margin: "16px 20px 0", fontSize: 11.5, color: C.danger, textAlign: "center" }}>
+            No se pudo guardar tu progreso en este momento.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Splash({ onStart }) {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "40px 30px",
+        textAlign: "center",
+      }}
+    >
+      <Logo size={72} />
+      <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 28, marginTop: 18 }}>
+        ConcentraT
+      </div>
+      <div style={{ color: C.muted, fontSize: 14, marginTop: 10, lineHeight: 1.5 }}>
+        Organiza tu tiempo, mejora tu concentración.
+      </div>
+      <PrimaryButton onClick={onStart} style={{ marginTop: 36, padding: "13px 40px" }}>
+        Comenzar
+      </PrimaryButton>
+    </div>
+  );
+}
+
+function MenuButton({ icon, label, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        width: "100%",
+        textAlign: "left",
+        background: C.panel,
+        border: `1px solid ${C.border}`,
+        borderRadius: 14,
+        padding: "14px 16px",
+        cursor: "pointer",
+        color: C.text,
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 600,
+        fontSize: 14,
+      }}
+    >
+      <span style={{ fontSize: 20 }}>{icon}</span>
+      {label}
+      <span style={{ marginLeft: "auto", color: C.muted }}>→</span>
+    </button>
+  );
+}
+
+function Menu({ data, minutesToday, onNav }) {
+  const goalPct = Math.min(100, (minutesToday / (data.dailyGoalMin || 60)) * 100);
+  return (
+    <div style={{ padding: "24px 20px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <Logo size={34} />
+          <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 17 }}>ConcentraT</div>
+        </div>
+        <button
+          onClick={() => onNav("profile")}
+          aria-label="Perfil"
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: "50%",
+            border: `1px solid ${C.border}`,
+            background: C.panelSoft,
+            color: C.lavender,
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          {(data.profile.name || "?").slice(0, 1).toUpperCase()}
+        </button>
+      </div>
+
+      <div style={{ marginTop: 18, fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: 19 }}>
+        {data.profile.name ? `Hola, ${data.profile.name}` : "Hola"}, ¿listo para estudiar?
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 18 }}>
+        <Card>
+          <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Hoy estudiaste</div>
+          <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 22, marginTop: 4 }}>
+            {minutesToday} min
+          </div>
+        </Card>
+        <Card>
+          <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Puntos</div>
+          <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 22, marginTop: 4, color: C.gold }}>
+            {data.points || 0} ⭐
+          </div>
+        </Card>
+      </div>
+
+      <Card style={{ marginTop: 10 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: C.muted, fontWeight: 600 }}>
+          <span>Meta del día</span>
+          <span>{minutesToday}/{data.dailyGoalMin} min</span>
+        </div>
+        <div style={{ marginTop: 8 }}>
+          <ProgressBar pct={goalPct} />
+        </div>
+      </Card>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 20 }}>
+        <MenuButton icon="⏱️" label="Iniciar sesión de estudio" onClick={() => onNav("session")} />
+        <MenuButton icon="🎯" label="Mis metas" onClick={() => onNav("goals")} />
+        <MenuButton icon="🔔" label="Recordatorios" onClick={() => onNav("reminders")} />
+        <MenuButton icon="📊" label="Mi progreso" onClick={() => onNav("progress")} />
+        <MenuButton icon="⭐" label="Recompensas" onClick={() => onNav("rewards")} />
+      </div>
+    </div>
+  );
+}
+
+function SessionScreen({ onBack, onFinish }) {
+  const [subject, setSubject] = useState(SUBJECTS[0]);
+  const [customSubject, setCustomSubject] = useState("");
+  const [objective, setObjective] = useState("");
+  const [duration, setDuration] = useState(25);
+  const [pomodoro, setPomodoro] = useState(false);
+  const [phase, setPhase] = useState("work");
+  const [secondsLeft, setSecondsLeft] = useState(25 * 60);
+  const [running, setRunning] = useState(false);
+  const [result, setResult] = useState(null);
+  const workedSecondsRef = useRef(0);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (!running) return;
+    intervalRef.current = setInterval(() => {
+      setSecondsLeft((s) => {
+        if (s <= 1) {
+          clearInterval(intervalRef.current);
+          handlePhaseEnd();
+          return 0;
+        }
+        if (phase === "work") workedSecondsRef.current += 1;
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(intervalRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [running, phase]);
+
+  function handlePhaseEnd() {
+    setRunning(false);
+    if (phase === "work" && pomodoro) {
+      setPhase("break");
+      setSecondsLeft(5 * 60);
+      setRunning(true);
+    } else {
+      finish(true);
+    }
+  }
+
+  function finish(natural) {
+    setRunning(false);
+    clearInterval(intervalRef.current);
+    const mins = Math.max(1, Math.round(workedSecondsRef.current / 60));
+    const subj = subject === "Otra" ? customSubject || "Otra materia" : subject;
+    const earned = onFinish({ subject: subj, minutes: mins, objective });
+    setResult({ mins, earned });
+  }
+
+  function startPause() {
+    if (secondsLeft === 0 && phase === "work") {
+      setSecondsLeft(duration * 60);
+    }
+    setRunning((r) => !r);
+  }
+
+  function changeDuration(m) {
+    if (running || workedSecondsRef.current > 0) return;
+    setDuration(m);
+    setSecondsLeft(m * 60);
+  }
+
+  const RADIUS = 100;
+  const CIRC = 2 * Math.PI * RADIUS;
+  const totalPhaseSeconds = phase === "work" ? duration * 60 : 5 * 60;
+  const progress = 1 - secondsLeft / totalPhaseSeconds;
+
+  if (result) {
+    return (
+      <div style={{ padding: "24px 20px" }}>
+        <TopBack onBack={onBack} title="Sesión de estudio" />
+        <div style={{ textAlign: "center", padding: "40px 10px" }}>
+          <div style={{ fontSize: 40 }}>🎉</div>
+          <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 12 }}>
+            ¡Sesión completada!
+          </div>
+          <div style={{ color: C.muted, marginTop: 8, fontSize: 14 }}>
+            Has estudiado {result.mins} minuto{result.mins === 1 ? "" : "s"}.
+          </div>
+          <div style={{ color: C.gold, fontWeight: 700, marginTop: 10, fontSize: 16 }}>
+            +{result.earned} puntos ⭐
+          </div>
+          <PrimaryButton onClick={onBack} style={{ marginTop: 30 }}>
+            Volver al menú
+          </PrimaryButton>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: "0 0 20px" }}>
+      <TopBack onBack={onBack} title="Sesión de estudio" />
+      <div style={{ padding: "10px 20px" }}>
+        <TextField
+          label="Materia"
+          value=""
+          onChange={() => {}}
+          placeholder=""
+          type="hidden"
+        />
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: -8, marginBottom: 12 }}>
+          {SUBJECTS.map((s) => (
+            <button
+              key={s}
+              onClick={() => setSubject(s)}
+              disabled={running}
+              style={{
+                fontSize: 12.5,
+                fontWeight: 600,
+                padding: "8px 13px",
+                borderRadius: 999,
+                border: `1px solid ${subject === s ? C.purple : C.border}`,
+                background: subject === s ? C.purpleSoft : "transparent",
+                color: subject === s ? C.lavender : C.muted,
+                cursor: running ? "default" : "pointer",
+              }}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+        {subject === "Otra" && (
+          <TextField
+            value={customSubject}
+            onChange={setCustomSubject}
+            placeholder="Escribe la materia"
+          />
+        )}
+        <TextField
+          label="Meta de la sesión (opcional)"
+          value={objective}
+          onChange={setObjective}
+          placeholder="Ej: completar ejercicios 1 al 10"
+        />
+
+        <div style={{ display: "flex", gap: 8, margin: "6px 0 22px", justifyContent: "center" }}>
+          {DURATIONS.map((m) => (
+            <button
+              key={m}
+              onClick={() => changeDuration(m)}
+              disabled={running}
+              style={{
+                fontWeight: 600,
+                fontSize: 13,
+                padding: "8px 15px",
+                borderRadius: 999,
+                border: `1px solid ${duration === m ? C.purple : C.border}`,
+                background: duration === m ? C.purpleSoft : "transparent",
+                color: duration === m ? C.lavender : C.muted,
+                cursor: running ? "default" : "pointer",
+                opacity: running ? 0.5 : 1,
+              }}
+            >
+              {m} min
+            </button>
+          ))}
+        </div>
+
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: C.muted, marginBottom: 18 }}>
+          <input type="checkbox" checked={pomodoro} onChange={(e) => setPomodoro(e.target.checked)} disabled={running} />
+          Modo Pomodoro (5 min de descanso al terminar)
+        </label>
+
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ position: "relative" }}>
+            <svg width="240" height="240" viewBox="0 0 240 240">
+              <circle cx="120" cy="120" r={RADIUS} fill="none" stroke={C.panelSoft} strokeWidth="13" />
+              <circle
+                cx="120"
+                cy="120"
+                r={RADIUS}
+                fill="none"
+                stroke={phase === "work" ? C.purple : C.mint}
+                strokeWidth="13"
+                strokeLinecap="round"
+                strokeDasharray={`${CIRC * progress} ${CIRC}`}
+                transform="rotate(-90 120 120)"
+                style={{ transition: "stroke-dasharray 1s linear" }}
+              />
+            </svg>
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 38 }}>
+                {fmtTime(secondsLeft)}
+              </div>
+              <div style={{ fontSize: 11.5, color: C.muted, marginTop: 4 }}>
+                {phase === "work" ? "enfoque" : "descanso"}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 24 }}>
+          <PrimaryButton onClick={startPause}>{running ? "Pausar" : "Iniciar"}</PrimaryButton>
+          <GhostButton onClick={() => finish(false)}>Finalizar</GhostButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RemindersScreen({ data, update, onBack }) {
+  const [subject, setSubject] = useState("");
+  const [date, setDate] = useState(today_input());
+  const [time, setTime] = useState("16:00");
+  const [type, setType] = useState(REMINDER_TYPES[0]);
+  const [error, setError] = useState("");
+
+  function today_input() {
+    return todayStr();
+  }
+
+  function addReminder() {
+    if (!subject.trim()) {
+      setError("Escribe una materia o título para el recordatorio.");
+      return;
+    }
+    setError("");
+    update((prev) => ({
+      ...prev,
+      reminders: [...(prev.reminders || []), { id: uid(), subject: subject.trim(), date, time, type }],
+    }));
+    setSubject("");
+  }
+
+  function removeReminder(id) {
+    update((prev) => ({ ...prev, reminders: (prev.reminders || []).filter((r) => r.id !== id) }));
+  }
+
+  const reminders = [...(data.reminders || [])].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+  return (
+    <div>
+      <TopBack onBack={onBack} title="Recordatorios" />
+      <div style={{ padding: "10px 20px" }}>
+        <Card>
+          <TextField label="Materia o título" value={subject} onChange={setSubject} placeholder="Ej: Estudiar Matemáticas" />
+          <div style={{ display: "flex", gap: 10 }}>
+            <div style={{ flex: 1 }}>
+              <TextField label="Fecha" value={date} onChange={setDate} type="date" />
+            </div>
+            <div style={{ flex: 1 }}>
+              <TextField label="Hora" value={time} onChange={setTime} type="time" />
+            </div>
+          </div>
+          <label style={{ fontSize: 12, color: C.muted, fontWeight: 600, display: "block", marginBottom: 6 }}>
+            Tipo
+          </label>
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            style={{
+              width: "100%",
+              background: C.panelSoft,
+              border: `1px solid ${C.border}`,
+              borderRadius: 10,
+              padding: "11px 13px",
+              color: C.text,
+              fontSize: 13.5,
+              marginBottom: 12,
+            }}
+          >
+            {REMINDER_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+          {error && <div style={{ color: C.danger, fontSize: 12, marginBottom: 10 }}>{error}</div>}
+          <PrimaryButton onClick={addReminder} style={{ width: "100%" }}>
+            Guardar recordatorio
+          </PrimaryButton>
+        </Card>
+
+        <div style={{ marginTop: 20, fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 10 }}>
+          Próximos
+        </div>
+        {reminders.length === 0 ? (
+          <div style={{ fontSize: 13, color: C.muted }}>Todavía no tienes recordatorios.</div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {reminders.map((r) => (
+              <div
+                key={r.id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  background: C.panel,
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 12,
+                  padding: "12px 14px",
+                }}
+              >
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 13.5 }}>{r.subject}</div>
+                  <div style={{ fontSize: 11.5, color: C.muted, marginTop: 2 }}>
+                    {r.type} · {r.date} · {r.time}
+                  </div>
+                </div>
+                <button
+                  onClick={() => removeReminder(r.id)}
+                  aria-label="Eliminar recordatorio"
+                  style={{ background: "none", border: "none", color: C.muted, cursor: "pointer", fontSize: 16 }}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GoalsScreen({ data, update, minutesToday, weekSessions, onBack }) {
+  const [newGoal, setNewGoal] = useState("");
+  const [newTarget, setNewTarget] = useState(5);
+  const [error, setError] = useState("");
+
+  const dailyPct = Math.min(100, (minutesToday / (data.dailyGoalMin || 60)) * 100);
+  const weeklyPct = Math.min(100, (weekSessions / (data.weeklyGoalSessions || 5)) * 100);
+
+  function addGoal() {
+    if (!newGoal.trim()) {
+      setError("Escribe una meta antes de guardarla.");
+      return;
+    }
+    setError("");
+    update((prev) => ({
+      ...prev,
+      goals: [...(prev.goals || []), { id: uid(), text: newGoal.trim(), target: Number(newTarget) || 1, current: 0 }],
+    }));
+    setNewGoal("");
+  }
+
+  function bumpGoal(id) {
+    update((prev) => ({
+      ...prev,
+      goals: (prev.goals || []).map((g) => (g.id === id ? { ...g, current: Math.min(g.target, g.current + 1) } : g)),
+    }));
+  }
+
+  function removeGoal(id) {
+    update((prev) => ({ ...prev, goals: (prev.goals || []).filter((g) => g.id !== id) }));
+  }
+
+  return (
+    <div>
+      <TopBack onBack={onBack} title="Mis metas" />
+      <div style={{ padding: "10px 20px" }}>
+        <Card>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, fontWeight: 600 }}>
+            <span>🎯 Estudiar {data.dailyGoalMin} min al día</span>
+            <span style={{ color: C.muted }}>{Math.round(dailyPct)}%</span>
+          </div>
+          <div style={{ marginTop: 8 }}>
+            <ProgressBar pct={dailyPct} />
+          </div>
+        </Card>
+        <Card style={{ marginTop: 10 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, fontWeight: 600 }}>
+            <span>🎯 Completar {data.weeklyGoalSessions} sesiones esta semana</span>
+            <span style={{ color: C.muted }}>{Math.round(weeklyPct)}%</span>
+          </div>
+          <div style={{ marginTop: 8 }}>
+            <ProgressBar pct={weeklyPct} color={C.mint} />
+          </div>
+        </Card>
+
+        <div style={{ marginTop: 20, fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 10 }}>
+          Mis metas personales
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {(data.goals || []).map((g) => {
+            const pct = Math.min(100, (g.current / g.target) * 100);
+            return (
+              <Card key={g.id}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, flex: 1 }}>{g.text}</div>
+                  <button
+                    onClick={() => removeGoal(g.id)}
+                    aria-label="Eliminar meta"
+                    style={{ background: "none", border: "none", color: C.muted, cursor: "pointer", fontSize: 15 }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div style={{ fontSize: 11.5, color: C.muted, margin: "6px 0 8px" }}>
+                  {g.current}/{g.target}
+                </div>
+                <ProgressBar pct={pct} />
+                <GhostButton onClick={() => bumpGoal(g.id)} style={{ marginTop: 10, padding: "8px 14px", fontSize: 12.5 }}>
+                  + Avanzar
+                </GhostButton>
+              </Card>
+            );
+          })}
+        </div>
+
+        <Card style={{ marginTop: 16 }}>
+          <TextField label="Nueva meta" value={newGoal} onChange={setNewGoal} placeholder="Ej: Leer 3 capítulos de historia" />
+          <TextField label="Objetivo (número)" value={newTarget} onChange={setNewTarget} type="number" />
+          {error && <div style={{ color: C.danger, fontSize: 12, marginBottom: 8 }}>{error}</div>}
+          <PrimaryButton onClick={addGoal} style={{ width: "100%" }}>
+            Agregar meta
+          </PrimaryButton>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function ProgressScreen({ data, days7, minutesByDay, totalMinutesAll, onBack }) {
+  const maxMinutes = Math.max(60, ...minutesByDay);
+  const sessions = data.sessions || [];
+  return (
+    <div>
+      <TopBack onBack={onBack} title="Mi progreso" />
+      <div style={{ padding: "10px 20px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Tiempo estudiado</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4 }}>
+              {Math.floor(totalMinutesAll / 60)}h {totalMinutesAll % 60}min
+            </div>
+          </Card>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Sesiones</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4 }}>
+              {sessions.length}
+            </div>
+          </Card>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Racha actual</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4 }}>
+              {data.streak || 0} días 🔥
+            </div>
+          </Card>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Puntos</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4, color: C.gold }}>
+              {data.points || 0}
+            </div>
+          </Card>
+        </div>
+
+        <Card style={{ marginTop: 12 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 14 }}>Esta semana</div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {minutesByDay.map((mins, i) => {
+              const d = new Date(days7[i]);
+              const label = DAY_LABELS[d.getDay()];
+              const emoji = mins >= 45 ? "🟪" : mins > 0 ? "🟨" : "⬜";
+              return (
+                <div key={days7[i]} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                  <span style={{ fontSize: 18 }}>{emoji}</span>
+                  <span style={{ fontSize: 10.5, color: C.muted }}>{label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        <Card style={{ marginTop: 12 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 14 }}>Minutos por día</div>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 10, height: 110 }}>
+            {minutesByDay.map((mins, i) => {
+              const d = new Date(days7[i]);
+              const label = DAY_LABELS[d.getDay()];
+              const h = Math.max(4, (mins / maxMinutes) * 100);
+              return (
+                <div key={days7[i]} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", height: "100%" }}>
+                  <div style={{ fontSize: 10, color: C.muted, marginBottom: 6 }}>{mins > 0 ? mins : ""}</div>
+                  <div style={{ width: "100%", height: `${h}%`, borderRadius: 6, background: mins > 0 ? C.purple : C.panelSoft }} />
+                  <div style={{ fontSize: 10.5, color: C.muted, marginTop: 8 }}>{label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        <div style={{ marginTop: 16, fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 10 }}>
+          Historial reciente
+        </div>
+        {sessions.length === 0 ? (
+          <div style={{ fontSize: 13, color: C.muted }}>Aún no hay sesiones registradas.</div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {[...sessions].slice(-6).reverse().map((s, i) => (
+              <div key={i} style={{ display: "flex", justifyContent: "space-between", background: C.panel, border: `1px solid ${C.border}`, borderRadius: 10, padding: "10px 14px", fontSize: 12.5 }}>
+                <span style={{ color: C.muted }}>{s.date} · {s.subject || "Estudio"}</span>
+                <span style={{ fontWeight: 600 }}>{s.minutes} min</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function RewardsScreen({ data, update, onBack }) {
+  const points = data.points || 0;
+  const next = BADGES.find((b) => points < b.need);
+  const [title, setTitle] = useState("");
+  const [cost, setCost] = useState(30);
+  const [error, setError] = useState("");
+
+  function addReward() {
+    if (!title.trim()) {
+      setError("Escribe qué quieres poder canjear.");
+      return;
+    }
+    if (!cost || Number(cost) <= 0) {
+      setError("El costo en puntos debe ser mayor a 0.");
+      return;
+    }
+    setError("");
+    update((prev) => ({
+      ...prev,
+      customRewards: [...(prev.customRewards || []), { id: uid(), title: title.trim(), cost: Number(cost) }],
+    }));
+    setTitle("");
+    setCost(30);
+  }
+
+  function removeReward(id) {
+    update((prev) => ({ ...prev, customRewards: (prev.customRewards || []).filter((r) => r.id !== id) }));
+  }
+
+  function redeem(reward) {
+    if (points < reward.cost) return;
+    update((prev) => ({
+      ...prev,
+      points: (prev.points || 0) - reward.cost,
+      redeemedLog: [...(prev.redeemedLog || []), { title: reward.title, cost: reward.cost, date: todayStr() }],
+    }));
+  }
+
+  const customRewards = data.customRewards || [];
+  const redeemedLog = data.redeemedLog || [];
+
+  return (
+    <div>
+      <TopBack onBack={onBack} title="Recompensas" />
+      <div style={{ padding: "10px 20px" }}>
+        <Card style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 12, color: C.muted, fontWeight: 600 }}>Puntos acumulados</div>
+          <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 34, color: C.gold, marginTop: 4 }}>
+            {points}
+          </div>
+          {next && (
+            <div style={{ marginTop: 12 }}>
+              <div style={{ fontSize: 11.5, color: C.muted, marginBottom: 6 }}>
+                {next.need - points} puntos para "{next.name}"
+              </div>
+              <ProgressBar pct={(points / next.need) * 100} color={C.gold} />
+            </div>
+          )}
+        </Card>
+
+        <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 8 }}>
+          {BADGES.map((b) => {
+            const unlocked = points >= b.need;
+            return (
+              <div
+                key={b.name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: unlocked ? "rgba(242,184,75,0.10)" : C.panel,
+                  border: `1px solid ${unlocked ? C.gold : C.border}`,
+                  borderRadius: 12,
+                  padding: "13px 14px",
+                  opacity: unlocked ? 1 : 0.6,
+                }}
+              >
+                <span style={{ fontSize: 22 }}>{b.icon}</span>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 13.5 }}>{b.name}</div>
+                  <div style={{ fontSize: 11.5, color: C.muted }}>{b.need} puntos</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ marginTop: 24, fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 10 }}>
+          Canjea tus puntos por premios
+        </div>
+        <div style={{ fontSize: 11.5, color: C.muted, marginBottom: 12, lineHeight: 1.5 }}>
+          Tú decides qué son los premios: algo real (tiempo libre, un antojo, salir con amigos) o algo
+          simbólico. Al canjear se descuentan los puntos.
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {customRewards.length === 0 && (
+            <div style={{ fontSize: 13, color: C.muted }}>Todavía no tienes premios creados.</div>
+          )}
+          {customRewards.map((r) => {
+            const canRedeem = points >= r.cost;
+            return (
+              <Card key={r.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row" }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 13.5 }}>{r.title}</div>
+                  <div style={{ fontSize: 11.5, color: C.muted, marginTop: 2 }}>{r.cost} puntos</div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <button
+                    onClick={() => redeem(r)}
+                    disabled={!canRedeem}
+                    style={{
+                      fontFamily: "'Sora', sans-serif",
+                      fontWeight: 600,
+                      fontSize: 12.5,
+                      padding: "9px 14px",
+                      borderRadius: 10,
+                      border: "none",
+                      background: canRedeem ? C.gold : C.panelSoft,
+                      color: canRedeem ? "#2B1D02" : C.muted,
+                      cursor: canRedeem ? "pointer" : "default",
+                    }}
+                  >
+                    Canjear
+                  </button>
+                  <button
+                    onClick={() => removeReward(r.id)}
+                    aria-label="Eliminar premio"
+                    style={{ background: "none", border: "none", color: C.muted, cursor: "pointer", fontSize: 15 }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+
+        <Card style={{ marginTop: 14 }}>
+          <TextField label="Nuevo premio" value={title} onChange={setTitle} placeholder="Ej: Pedir mi comida favorita" />
+          <TextField label="Costo en puntos" value={cost} onChange={setCost} type="number" />
+          {error && <div style={{ color: C.danger, fontSize: 12, marginBottom: 8 }}>{error}</div>}
+          <PrimaryButton onClick={addReward} style={{ width: "100%" }}>
+            Agregar premio
+          </PrimaryButton>
+        </Card>
+
+        {redeemedLog.length > 0 && (
+          <>
+            <div style={{ marginTop: 22, fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 10 }}>
+              Canjeado recientemente
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {[...redeemedLog].slice(-5).reverse().map((r, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    background: C.panel,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 10,
+                    padding: "10px 14px",
+                    fontSize: 12.5,
+                  }}
+                >
+                  <span style={{ color: C.muted }}>{r.date} · {r.title}</span>
+                  <span style={{ fontWeight: 600 }}>-{r.cost} pts</span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ProfileScreen({ data, update, totalMinutesAll, onBack }) {
+  const [name, setName] = useState(data.profile.name || "");
+  const [grade, setGrade] = useState(data.profile.grade || "");
+
+  function save() {
+    update((prev) => ({ ...prev, profile: { name, grade } }));
+  }
+
+  return (
+    <div>
+      <TopBack onBack={onBack} title="Mi perfil" />
+      <div style={{ padding: "10px 20px" }}>
+        <Card>
+          <TextField label="Nombre" value={name} onChange={setName} placeholder="Tu nombre" />
+          <TextField label="Grado" value={grade} onChange={setGrade} placeholder="Ej: 10mo B" />
+          <PrimaryButton onClick={save} style={{ width: "100%" }}>
+            Guardar
+          </PrimaryButton>
+        </Card>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 14 }}>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Sesiones completadas</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4 }}>
+              {(data.sessions || []).length}
+            </div>
+          </Card>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Puntos</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4, color: C.gold }}>
+              {data.points || 0}
+            </div>
+          </Card>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Mejor racha</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4 }}>
+              {data.bestStreak || 0} días
+            </div>
+          </Card>
+          <Card>
+            <div style={{ fontSize: 11.5, color: C.muted, fontWeight: 600 }}>Tiempo total</div>
+            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 20, marginTop: 4 }}>
+              {Math.floor(totalMinutesAll / 60)}h {totalMinutesAll % 60}min
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
